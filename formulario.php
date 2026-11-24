@@ -1,28 +1,28 @@
 <?php
 require 'config/conexao.php';
 
-// Lista de estados válidos (usada no <select> e na validação)
+
 $estados = ['AC','AL','AP','AM','BA','CE','DF','ES','GO','MA','MT','MS','MG','PA',
             'PB','PR','PE','PI','RJ','RN','RS','RO','RR','SC','SP','SE','TO'];
 
-// Começam vazias: na primeira visita o formulário aparece em branco
+
 $nome = $cpf = $email = $telefone = $cep = $logradouro = '';
 $numero = $complemento = $bairro = $cidade = $uf = '';
 
 $erros   = [];
 $sucesso = false;
 
-// Só entra aqui quando o formulário for enviado
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-    // ---------- PASSO B: guardar os dados em variáveis ----------
+    
     $nome        = trim($_POST['nome'] ?? '');
-    $cpf         = preg_replace('/\D/', '', $_POST['cpf'] ?? '');   // só números
+    $cpf         = preg_replace('/\D/', '', $_POST['cpf'] ?? '');   
     $email       = trim($_POST['email'] ?? '');
     $telefone    = trim($_POST['telefone'] ?? '');
-    $senha       = $_POST['senha'] ?? '';                           // senha não leva trim
+    $senha       = $_POST['senha'] ?? '';                           
     $confirmar   = $_POST['confirmar_senha'] ?? '';
-    $cep         = preg_replace('/\D/', '', $_POST['cep'] ?? '');   // só números
+    $cep         = preg_replace('/\D/', '', $_POST['cep'] ?? '');   
     $logradouro  = trim($_POST['logradouro'] ?? '');
     $numero      = trim($_POST['numero'] ?? '');
     $complemento = trim($_POST['complemento'] ?? '');
@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $cidade      = trim($_POST['cidade'] ?? '');
     $uf          = strtoupper(trim($_POST['uf'] ?? ''));
 
-    // ---------- PASSO C: validação ----------
+    
     if ($nome === '') {
         $erros[] = 'Preencha o nome.';
     }
@@ -59,7 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $erros[] = 'Selecione um estado.';
     }
 
-    // ---------- E-mail ou CPF já cadastrados? ----------
+    
     if (empty($erros)) {
         $stmt = $pdo->prepare('SELECT email, cpf FROM clientes WHERE email = :email OR cpf = :cpf');
         $stmt->execute([':email' => $email, ':cpf' => $cpf]);
@@ -74,9 +74,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
-    // ---------- PASSOS D e E: preparar e salvar ----------
+    
     if (empty($erros)) {
-        $senhaHash = password_hash($senha, PASSWORD_DEFAULT);   // embaralha a senha
+        $senhaHash = password_hash($senha, PASSWORD_DEFAULT);   
 
         $sql = 'INSERT INTO clientes
                     (nome, cpf, email, telefone, senha, cep, logradouro, numero, complemento, bairro, cidade, uf)
@@ -93,7 +93,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ':cep'         => $cep,
             ':logradouro'  => $logradouro,
             ':numero'      => $numero,
-            ':complemento' => $complemento !== '' ? $complemento : null,  // vazio vira NULL no banco
+            ':complemento' => $complemento !== '' ? $complemento : null,  
             ':bairro'      => $bairro,
             ':cidade'      => $cidade,
             ':uf'          => $uf,
@@ -101,7 +101,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $sucesso = true;
 
-        // Limpa o formulário depois de cadastrar
+        
         $nome = $cpf = $email = $telefone = $cep = $logradouro = '';
         $numero = $complemento = $bairro = $cidade = $uf = '';
     }
