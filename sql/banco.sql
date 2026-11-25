@@ -7,7 +7,6 @@ CREATE DATABASE loja
 USE loja;
 
 
--- CLIENTES: quem compra na loja
 
 CREATE TABLE clientes (
   id          INT AUTO_INCREMENT PRIMARY KEY,
@@ -28,7 +27,7 @@ CREATE TABLE clientes (
 ) ENGINE=InnoDB;
 
 
--- CATEGORIAS: organiza os produtos
+
 
 CREATE TABLE categorias (
   id   INT AUTO_INCREMENT PRIMARY KEY,
@@ -36,7 +35,7 @@ CREATE TABLE categorias (
 ) ENGINE=InnoDB;
 
 
--- PRODUTOS: cada produto tem UMA categoria
+
 
 CREATE TABLE produtos (
   id           INT AUTO_INCREMENT PRIMARY KEY,
@@ -53,7 +52,6 @@ CREATE TABLE produtos (
 ) ENGINE=InnoDB;
 
 
--- COMPRAS: cada compra é de UM cliente
 
 CREATE TABLE compras (
   id          INT AUTO_INCREMENT PRIMARY KEY,
@@ -75,7 +73,7 @@ CREATE TABLE compras (
 ) ENGINE=InnoDB;
 
 
--- ITENS_COMPRA: quais produtos estão em cada compra
+
 
 CREATE TABLE itens_compra (
   id             INT AUTO_INCREMENT PRIMARY KEY,
