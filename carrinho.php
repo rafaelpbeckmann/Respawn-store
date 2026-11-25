@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Busca o estoque do produto para não deixar passar do limite
     $stmt = $pdo->prepare('SELECT estoque FROM produtos WHERE id = :id AND ativo = 1');
     $stmt->execute([':id' => $produto_id]);
-    $estoque = $stmt->fetchColumn();   // o número do estoque, ou false se não existir
+    $estoque = $stmt->fetchColumn();   
 
     if ($acao === 'adicionar' && $estoque !== false) {
         $atual = $_SESSION['carrinho'][$produto_id] ?? 0;
@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($acao === 'atualizar' && $estoque !== false) {
         $quantidade = (int) ($_POST['quantidade'] ?? 1);
-        $quantidade = max(1, min($quantidade, (int) $estoque));   // entre 1 e o estoque
+        $quantidade = max(1, min($quantidade, (int) $estoque));   
         $_SESSION['carrinho'][$produto_id] = $quantidade;
     }
 
@@ -40,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Remove itens que ficaram com 0 (produto esgotado)
     $_SESSION['carrinho'] = array_filter($_SESSION['carrinho']);
 
-    // Recarrega a página com GET (evita reenviar o formulário ao apertar F5)
+    
     header('Location: carrinho.php');
     exit;
 }
