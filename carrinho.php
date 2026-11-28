@@ -2,7 +2,7 @@
 
 require 'config/conexao.php';
 
-// Se o carrinho ainda não existe, cria vazio
+
 if (!isset($_SESSION['carrinho'])) {
     $_SESSION['carrinho'] = [];
 }
@@ -69,7 +69,7 @@ if (!empty($_SESSION['carrinho'])) {
     }
 }
 
-// Função pequena para mostrar dinheiro no formato brasileiro
+
 function reais($valor) {
     return 'R$ ' . number_format($valor, 2, ',', '.');
 }
@@ -103,7 +103,7 @@ function reais($valor) {
                     </td>
                     <td><?= reais($item['preco']) ?></td>
                     <td>
-                        <!-- Alterar quantidade -->
+                        
                         <form method="post">
                             <input type="hidden" name="acao" value="atualizar">
                             <input type="hidden" name="produto_id" value="<?= $item['id'] ?>">
@@ -114,7 +114,7 @@ function reais($valor) {
                     </td>
                     <td><?= reais($item['total_item']) ?></td>
                     <td>
-                        <!-- Remover item -->
+                        
                         <form method="post">
                             <input type="hidden" name="acao" value="remover">
                             <input type="hidden" name="produto_id" value="<?= $item['id'] ?>">
@@ -133,7 +133,7 @@ function reais($valor) {
             <button type="submit">esvaziar carrinho</button>
         </form>
 
-        <!-- finalizar.php será criado no próximo passo -->
+    
         <p><a href="finalizar.php">Finalizar compra →</a></p>
     <?php endif; ?>
 </body>
